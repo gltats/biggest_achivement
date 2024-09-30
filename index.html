@@ -1,0 +1,1108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<!-- bootstrap -->
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+		crossorigin="anonymous"></script>
+	<!-- font awesome -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
+	<!-- custom css -->
+	<title>My Journey at 42 Wolfsburg</title>
+	<style>
+		/* global colors */
+		:root {
+			--primary-color: #0693e3;
+			--secondary-color: #fbb81a;
+			--dark-color: #333;
+			--light-color: #f4f4f4;
+		}
+
+		body {
+			font-family: 'Arial', sans-serif;
+			margin: 0;
+			padding: 0;
+			background-color: var(--light-color);
+		}
+
+		header {
+			text-align: center;
+			background-color: var(--primary-color);
+			color: white;
+			padding: 50px 0;
+		}
+
+		header h1 {
+			font-size: 2.8rem;
+			margin: 0;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			animation: hover-glow 2s ease-in-out infinite alternate;
+		}
+
+		.playlist {
+			/* block on the top right just below header */
+			position: absolute;
+			top: 16%;
+			right: 2%;
+			margin-top: 2rem;
+			margin-bottom: 2rem;
+			width: 300px;
+			height: 80px;
+		}
+
+		@keyframes hover-glow {
+			from {
+				text-shadow: 0 0 20px var(--secondary-color)
+			}
+
+			to {
+				text-shadow: 0 0 50px #ff6900;
+			}
+		}
+
+		section {
+			padding: 30px;
+			max-width: 1200px;
+			margin: auto;
+		}
+
+		.icon-text {
+			display: flex;
+			align-items: center;
+		}
+
+		.icon {
+			margin-right: 10px;
+			/* Adjust the spacing between the icon and the text */
+			width: 40px;
+		}
+
+		section.timeline {
+			display: flex;
+			flex-wrap: wrap;
+			justify-content: flex-start;
+			padding: 50px 20px;
+			gap: 20px;
+			max-width: 100%;
+			/* Ensures it fits the page width */
+			overflow-x: hidden;
+			/* No horizontal scrolling */
+
+		}
+
+		ul.timeline {
+
+			display: flex;
+			flex-wrap: wrap;
+			list-style: none;
+			padding: 0;
+			margin: 0;
+			gap: 20px;
+			justify-content: center;
+			/* Centers the timeline */
+		}
+
+		ul.timeline li {
+
+			position: relative;
+			flex-shrink: 0;
+			width: 250px;
+			height: auto;
+			background-color: #fff;
+			border-radius: 10px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			text-align: center;
+			padding: 20px;
+			transition: transform 0.3s ease;
+			cursor: pointer;
+		}
+
+		ul.timeline li:hover {
+			transform: translateY(-10px);
+		}
+
+		ul.timeline li:before {
+			content: '';
+			position: absolute;
+			top: 50%;
+			left: -45px;
+			width: 0;
+			height: 0;
+			border-top: 10px solid transparent;
+			border-bottom: 10px solid transparent;
+			border-left: 15px solid #1a40bc;
+			transform: translateY(-50%);
+		}
+
+		ul.timeline li:first-child:before {
+			content: none;
+		}
+
+		ul.timeline li time {
+			display: block;
+			font-size: 0.9rem;
+			color: #333;
+			margin-bottom: 10px;
+			font-weight: bold;
+		}
+
+		ul.timeline li p {
+			font-size: 0.85rem;
+			line-height: 1.4;
+			color: #555;
+			word-wrap: break-word;
+		}
+
+		ul.timeline li:nth-child(odd) {
+			cursor: default;
+			background-color: #ff6f61;
+			color: white;
+		}
+
+		ul.timeline li:nth-child(even) {
+			cursor: default;
+			background-color: #4c9f70;
+			color: white;
+		}
+
+		ul.timeline li:nth-child(3n) {
+			cursor: default;
+			background-color: #6a9fb5;
+		}
+
+		ul.timeline li:nth-child(4n) {
+			cursor: default;
+			background-color: #d074a2;
+		}
+
+		ul.timeline li:nth-child(5n) {
+			cursor: default;
+			background-color: #f4d35e;
+		}
+
+
+		/* Animation */
+		ul.timeline li {
+			opacity: 0;
+			animation: fadeInUp 0.6s ease forwards;
+			animation-delay: calc(0.1s * var(--order));
+		}
+
+		@keyframes fadeInUp {
+			0% {
+				transform: translateY(20px);
+				opacity: 0;
+			}
+
+			100% {
+				transform: translateY(0);
+				opacity: 1;
+			}
+		}
+
+		/* Responsive for wrapping into new rows */
+		@media (min-width: 768px) {
+			ul.timeline {
+				display: flex;
+				flex-wrap: wrap;
+				justify-content: center;
+				/* Center the content horizontally */
+			}
+
+			ul.timeline li {
+				width: 250px;
+			}
+		}
+
+
+		/* About Me */
+		.slideshow-section {
+			position: relative;
+			padding: 0px;
+			max-width: 100%;
+			width: 100%;
+			height: 300px;
+			overflow: hidden;
+			background-image: url('holyGraph.png');
+			background-size: cover;
+			background-position: center;
+			color: white;
+			text-align: center;
+		}
+
+		.slideshow-container {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+
+		.slideshow {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+		}
+
+		.slide {
+			position: absolute;
+			width: 100%;
+			height: 100%;
+			display: flex;
+			justify-content: center;
+			align-items: center;
+		}
+
+		.image-container {
+			position: relative;
+			width: 100%;
+			height: 100%;
+		}
+
+		.image-container img {
+			position: absolute;
+			width: 50%;
+			height: 100%;
+			object-fit: cover;
+		}
+
+		.image-container img.left {
+			left: 0;
+			animation: slideDown 5s infinite;
+		}
+
+		.image-container img.right {
+			right: 0;
+			animation: slideUp 5s infinite;
+		}
+
+		.text {
+			position: absolute;
+			z-index: 1;
+			font-size: 2em;
+			color: white;
+			text-align: center;
+		}
+
+		@keyframes slideDown {
+			0% {
+				top: -100%;
+			}
+
+			50% {
+				top: 0;
+			}
+
+			100% {
+				top: 100%;
+			}
+		}
+
+		@keyframes slideUp {
+			0% {
+				bottom: -100%;
+			}
+
+			50% {
+				bottom: 0;
+			}
+
+			100% {
+				bottom: 100%;
+			}
+		}
+
+		/* Projects */
+		.projects {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 20px;
+		}
+
+		.project-card {
+			background-color: #fff;
+			padding: 20px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+			border-radius: 5px;
+			transition: transform 0.3s ease;
+		}
+
+		.project-card:hover {
+			transform: scale(1.05);
+		}
+
+		.reflection {
+			padding: 40px;
+			text-align: center;
+		}
+
+		.reflection button {
+			padding: 10px 20px;
+			background-color: var(--secondary-color);
+			color: white;
+			border: none;
+			cursor: pointer;
+			transition: background-color 0.3s ease;
+		}
+
+		.reflection button:hover {
+			color: aliceblue;
+			background-color: #ff8c00;
+		}
+
+		/* so_long */
+		.so_long {
+			text-align: center;
+		}
+
+		canvas {
+			background-color: black;
+			display: block;
+			margin: 0 auto;
+		}
+
+		#info {
+			text-align: center;
+			margin: 10px;
+		}
+
+		.congrats h1 {
+			font-family: 'Honk', sans-serif;
+
+		}
+
+		#congratulations {
+			display: none;
+
+			background-color: white;
+			padding: 20px;
+			border: 2px solid black;
+			text-align: center;
+		}
+
+		#congratulations button {
+			margin-top: 10px;
+		}
+
+
+		/* gallery */
+		.gallery {
+			text-align: center;
+			padding: 20px;
+		}
+
+		.gallery-wrapper {
+			position: relative;
+			max-width: 900px;
+			/* 300px width per image, 3 images visible */
+			margin: 0 auto;
+			overflow: hidden;
+		}
+
+		.gallery-container {
+			display: flex;
+			transition: transform 0.8s ease;
+			width: calc(300px * 10);
+			/* 10 images */
+		}
+
+		.carousel-image {
+			width: 300px;
+			height: 200px;
+			object-fit: cover;
+			transition: filter 0.8s ease, opacity 0.8s ease;
+			margin: 0 10px;
+			opacity: 0;
+			visibility: hidden;
+		}
+
+		.carousel-image.active {
+			filter: blur(0);
+			opacity: 1;
+			visibility: visible;
+		}
+
+		.carousel-image.blur {
+			filter: blur(5px);
+			/* Blur the inactive images */
+			opacity: 0.5;
+			visibility: visible;
+		}
+
+
+
+		.btn-gallery {
+			position: absolute;
+			top: 50%;
+			transform: translateY(-50%);
+			background-color: rgba(0, 0, 0, 0.5);
+			color: white;
+			border: none;
+			padding: 10px;
+			cursor: pointer;
+			z-index: 10;
+			font-size: 24px;
+			border-radius: 50%;
+		}
+
+		#prevBtn {
+			left: 10px;
+		}
+
+		#nextBtn {
+			right: 10px;
+		}
+
+		.btn-gallery:hover {
+			background-color: rgba(0, 0, 0, 0.8);
+		}
+
+		/* contact */
+		.contact {
+			padding: 0px;
+			max-width: 100%;
+			background-color: var(--primary-color);
+			color: white;
+			padding: 40px;
+			text-align: center;
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 20px;
+		}
+
+
+		/* for phones, reduce fonts half, and elemts */
+		@media (max-width: 768px) {
+			header h1 {
+				font-size: 2rem;
+			}
+
+			.playlist {
+				display: none;
+			}
+
+			section {
+				padding: 20px;
+			}
+
+			section.timeline {
+				padding: 10px;
+			}
+
+			ul.timeline li {
+				width: 50%;
+			}
+
+			.projects {
+				grid-template-columns: 1fr;
+			}
+
+			.project-card {
+				padding: 10px;
+			}
+
+			.gallery-wrapper {
+				max-width: 100%;
+			}
+
+			.gallery-container {
+				width: calc(300px * 8);
+			}
+
+			.carousel-image {
+				width: 200px;
+				height: 150px;
+			}
+
+			.contact {
+				grid-template-columns: 1fr;
+			}
+		}
+	</style>
+</head>
+
+<body>
+
+	<header>
+		<h1>My Journey @42 Wolfsburg</h1>
+		<p>From Coding Novice to Software Engineer</p>
+	</header>
+
+	<section class="AbouMe">
+		<div class="playlist">
+			<iframe style="border-radius:12px"
+				src="https://open.spotify.com/embed/playlist/3amLnNrHiQwR32uLdgfUx7?utm_source=generator&theme=0"
+				frameBorder="0" allowfullscreen="" allowtransparency="true"
+				allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+				loading="lazy"></iframe>
+		</div>
+		<h2>About Me</h2>
+		<!-- video link-->
+		<video width="320" height="240" controls>
+			<source src="video.mp4" type="video/mp4">
+		  </video>
+		  
+	
+
+	</section>
+
+	<section class="slideshow-section">
+		<!-- add a Fancy little slideshow where the image splits into two vertically. The left side moves down and the right up, in the center there is text  with inspiration and empower words -->
+		<div class="slideshow-container">
+			<div class="slideshow">
+				<div class="slide">
+					<div class="image-container">
+						<img src="problem-left.png" class="left">
+						<img src="problem-right.png" class="right">
+					</div>
+					<div class="text">Problem-solving</div>
+				</div>
+				<div class="slide">
+					<div class="image-container">
+						<img src="colab-left.png" class="left">
+						<img src="colab-right.png" class="right">
+					</div>
+					<div class="text">Collaboration</div>
+				</div>
+				<div class="slide">
+					<div class="image-container">
+						<img src="creative-left.png" class="left">
+						<img src="creative-right.png" class="right">
+					</div>
+					<div class="text">Creativity</div>
+				</div>
+				<div class="slide">
+					<div class="image-container">
+						<img src="passion-left.png" class="left">
+						<img src="passion-right.png" class="right">
+					</div>
+					<div class="text">Passion</div>
+				</div>
+				<div class="slide">
+					<div class="image-container">
+						<img src="" class="left">
+						<img src="" class="right">
+					</div>
+					<div class="text">Dedication</div>
+				</div>
+				<div class="slide">
+					<div class="image-container">
+						<img src="" class="left">
+						<img src="" class="right">
+					</div>
+					<div class="text">Growth</div>
+				</div>
+				<div class="slide">
+					<div class="image-container">
+						<img src="" class="left">
+						<img src="" class="right">
+					</div>
+					<div class="text">Empowerment</div>
+				</div>
+				<div class="slide">
+					<div class="image-container">
+						<img src="" class="left">
+						<img src="" class="right">
+					</div>
+					<div class="text">Diversity</div>
+				</div>
+			</div>
+		</div>
+
+	</section>
+
+	<section class="aboutSchool">
+		<h2>About 42 Wolfsburg</h2>
+		<p>42 Wolfsburg is a coding school that offers a unique, project-based curriculum. It's a place where you can
+			learn to code, collaborate with others, and build real-world projects.</p>
+		<!-- 2 column one with graph, 2nd info -->
+		<div class="row">
+			<div class="col-md-1"></div>
+			<div class="col-md-4">
+				<img src="graph.png" width="250" alt="Holy Graph" class="img-fluid">
+			</div>
+			
+			<div class="col-md-7">
+				<div class="icon-text  mt-3">
+					<img src="bullet.png" alt="Icon" class="icon">
+					<h3>Free</h3>
+				</div>
+				<div class="text-end icon-text">
+					<img src="bullet.png" alt="Icon" class="icon">
+					<h3>Peer-to-peer Pedagogy</h3>
+				</div>
+				<div class="icon-text">
+					<img src="bullet.png" alt="Icon" class="icon">
+					<h3>Gamified Curriculum</h3>
+				</div>
+				<div class="text-end icon-text">
+					<img src="bullet.png" alt="Icon" class="icon">
+					<h3>Campus Open 24/7</h3>
+				</div>
+				<div class="icon-text">
+					<img src="bullet.png" alt="Icon" class="icon">
+					<h3>Student Life Support</h3>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="timeline">
+		<h3>My timeline:</h3>
+		<ul class="timeline">
+			<li><time datetime="2022-09">September 2022</time>Piscine</li>
+			<li><time datetime="2022-12">December 2022</time>Core Kick Off</li>
+			<li><time datetime="2023-01-02">2nd January 2023</time>Finished Libft <br> My 1st project</li>
+			<li><time datetime="2023-01">January 2023</time>Finished 1st circle <br>BornToBeRoot, Get_Next_Line and
+				Ft_Printf </li>
+			<li><time datetime="2023-05">May 2023</time>Finished 2nd circle <br> Pipex, Push_swap, and So_Long</li>
+			<li><time datetime="2023-09">September 2023</time>Finished 3rd circle <br> Minishell, Philosophers</li>
+			<li><time datetime="2024-01">January 2024</time>Finished 4th circle <br> Cub3D, CPP Modules(0 to 4) and
+				NetPractice</li>
+			<li><time datetime="2024-06">June 2024</time>Finished 5th circle <br> IRC and Inception </li>
+			<li><time datetime="2024-08">August 2024</time>Finished 6th circle <br> Transcendence</li>
+			<li><time datetime="2024-09">September 2024</time>Core Completion! 🎉</li>
+		</ul>
+	</section>
+
+	<section class="projects" id="projects-section">
+		<h2>Some projects:</h2>
+		<br>
+		<div class="project-card">
+			<h2>So_Long</h2>
+			<p>A small 2D game using minilibx. Learned about textures, sprites, and game design basics.</p>
+			<button type="button" class="btn btn-primary" id="so_long-button">See Project</button>
+		</div>
+		<div class="project-card">
+			<h2>Minishell</h2>
+			<p>Built a simple Unix shell, which deepened my understanding of process management and pipes.</p>
+			<button type="button" class="btn btn-primary" id="minishell-button">See Project</button>
+		</div>
+		<div class="project-card">
+			<h2>Cub3D</h2>
+			<p>Inspired by the first FPS ever, I used ray-casting to create a dynamic 3D environment.</p>
+			<button type="button" class="btn btn-primary" id="cub3d-button">See Project</button>
+		</div>
+		<div class="project-card">
+			<h2>Transcendence</h2>
+			<p>Designed and developed a full-stack web application with a focus on user experience and real-time
+				features.</p>
+			<button type="button" class="btn btn-primary" id="transcendence-button">See Project</button>
+		</div>
+	</section>
+
+	<section class="so_long" id="so_long_section">
+		<h1>So_Long</h1>
+		<div class="row">
+			<div class="col-md-6">
+				<div id="info" class="text-start">
+					<p>So_Long was my first graphical project at 42 Wolfsburg and taught me a lot about textures, sprites, 
+						and game design basics.</p>
+						<p>The project is written in C and utilizes the minilibx library for rendering graphics. 
+							It features a grid-based map where the player navigates through a maze to collect 
+							items and reach the exit. The game employs basic 2D rendering techniques to draw 
+							the map, player, and collectibles. It includes handling keyboard inputs for player 
+							movement, collision detection to prevent the player from walking through walls, 
+							and logic to track and display the player's progress. 
+							The project also covers the implementation of game states, such as winning the 
+							game after collecting all items and reaching the exit.</p>
+				</div>
+			</div>
+			<div class="col-md-6">
+				<video width="100%" controls> <source src="videos/so_long.mp4" class="video" type="video/mp4">
+			</div>
+		</div>
+		<br>
+		<h3>Recreation of So_Long in JS</h3>
+		<p> Use the arrow keys to move the player and collect all the pink circles and exit through the white hole!</p>
+		<div id="moves">Moves: 0</div>
+		<canvas id="gameCanvas"></canvas>
+		<div id="congratulations" class="congrats">
+			<h1>Congratulations!</h1>
+			<p>You collected all cherries!</p>
+		</div>
+
+		<button type="button" class="btn btn-primary back-button mt-3" id="back-button">Back to Projects</button>
+	</section>
+
+	<section class="Minishell" id="minishell-section">
+		<h1>Minishell</h1>
+		<video width="90%" controls> <source src="videos/minishell.mp4" class="video" type="video/mp4"> </video>
+		<div id="info" class="text-start">
+			<p>Minishell is a simple Unix shell that I built as part of the 42 Wolfsburg curriculum. 
+				The project deepened my understanding of process management, pipes, and system calls in C.</p>
+			<p>The shell supports basic commands such as ls, echo, pwd, and cd, as well as environment variables, 
+				signal handling, and error management.</p>
+		</div>
+		<button type="button" class="btn btn-primary back-button" id="back-button">Back to Projects</button>
+
+	</section>
+
+	<section class="Cub3D" id="cub3d-section">
+		<h1>Cub3D</h1>
+		<video width="90%" controls> <source src="videos/cub3d.mp4" class="video" type="video/mp4"> </video>
+		<div id="info" class="text-start">
+			<p>Cub3d is written in C and utilizes the minilibx library for rendering graphics. 
+				It employs ray-casting, a technique used to simulate a 3D perspective within a 
+				2D map, similar to the rendering technique used in classic games like Wolfenstein 3D.
+				The game features texture mapping for walls and sprites, allowing for a more immersive
+				visual experience. It includes handling keyboard inputs for player movement and 
+				mouse inputs for camera rotation, providing a smooth and interactive user experience. 
+				The project also covers collision detection to prevent the player from walking through
+				 walls, and the implementation of a game loop to manage rendering and game logic 
+				 efficiently. Additionally, it involves parsing and loading map files, managing 
+				 game states, and optimizing rendering performance to ensure smooth gameplay. </p>
+		</div>
+		<button type="button" class="btn btn-primary back-button" id="back-button">Back to Projects</button>
+
+	</section>
+
+	<section class="Transcendence" id="transcendence-section">
+		<h1>Transcendence</h1>
+		<video width="90%" controls> <source src="videos/ft_transcendence.mp4" class="video" type="video/mp4"> </video>
+		<div id="info" class="text-start">
+			<p>Transcendence is a comprehensive web application project that showcases a 
+				wide range web development techniques and best practices. 
+				The project is built using Django as the backend framework, providing a 
+				robust and scalable foundation for the application. 
+				For the frontend, Bootstrap is utilized to create a responsive and 
+				visually appealing user interface.</p>
+			<p>The backend leverages PostgreSQL as the database, ensuring efficient data
+				 management and retrieval. The application includes standard user 
+				 management features such as authentication, user profiles, and 
+				 user management across tournaments. Remote authentication is implemented 
+				 to enhance security and user convenience.</p>
+			<p>In addition to the core functionalities, the project introduces a secondary
+				 game, Stone, Paper, Scissors, with user history and matchmaking 
+				 capabilities. Users can customize their gaming experience with various 
+				 options, and an AI opponent is available for single-player mode. 
+				 The application also supports Two-Factor Authentication (2FA) and JSON Web
+				  Tokens (JWT) for secure user sessions.</p>
+			<p>Transcendence is designed to be accessible on all devices, with expanded 
+				browser compatibility and features to support visually impaired users. 
+				The basic Pong game has been replaced with a server-side version, providing
+				 a more interactive and engaging experience. The application supports 
+				 five languages, making it accessible to a broader audience.</p>
+		</div>
+		<button type="button" class="btn btn-primary back-button" id="back-button">Back to Projects</button>
+
+	</section>
+
+
+	<section class="reflection">
+		<h2>What This Journey Means to Me</h2>
+		<p>Completing the Core at 42 Wolfsburg was more than just learning to code—it was a transformative experience.
+		</p>
+		<button type="button" class="btn">See My Portfolio</button>
+	</section>
+
+	<section class="gallery">
+		<h2>Gallery</h2>
+
+		<div class="gallery-wrapper">
+			<div class="gallery-container">
+				<img src="gallery/42Berlin_SummerFest.png" alt="Summer Fest" class="carousel-image">
+				<img src="gallery/chritsmas.png" alt="Christmas Event" class="carousel-image">
+				<img src="gallery/heart.png" alt="Heart" class="carousel-image">
+				<img src="gallery/kickOff.png" alt="Kick Off" class="carousel-image">
+				<img src="gallery/me.png" alt="Me 1" class="carousel-image">
+				<img src="gallery/me2.png" alt="Me 2" class="carousel-image">
+				<img src="gallery/red.png" alt="Red" class="carousel-image">
+				<img src="gallery/summer_fest.png" alt="Summer Fest 2" class="carousel-image">
+				<img src="gallery/42Berlin_SummerFest.png" alt="Summer Fest 2" class="carousel-image">
+				<img src="gallery/42Berlin_SummerFest.png" alt="Summer Fest 2" class="carousel-image">
+
+			</div>
+			<button class="btn btn-gallery" id="prevBtn">❮</button>
+			<button class="btn btn-gallery" id="nextBtn">❯</button>
+		</div>
+	</section>
+
+	<section class="contact">
+		<div>
+			<h2>Get in Touch</h2>
+			<p>Let's connect and chat about coding, tech, or anything else!</p>
+		</div>
+		<div class="text-center">
+			<a href="https://www.linkedin.com/in/tatiana-sofia-gomes-lima-1a952117a/" target="_blank">
+				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-linkedin"
+					viewBox="0 0 16 16">
+					<path
+						d="M0 1.146C0 .513.526 0 1.175 0h13.65C15.474 0 16 .513 16 1.146v13.708c0 .633-.526 1.146-1.175 1.146H1.175C.526 16 0 15.487 0 14.854zm4.943 12.248V6.169H2.542v7.225zm-1.2-8.212c.837 0 1.358-.554 1.358-1.248-.015-.709-.52-1.248-1.342-1.248S2.4 3.226 2.4 3.934c0 .694.521 1.248 1.327 1.248zm4.908 8.212V9.359c0-.216.016-.432.08-.586.173-.431.568-.878 1.232-.878.869 0 1.216.662 1.216 1.634v3.865h2.401V9.25c0-2.22-1.184-3.252-2.764-3.252-1.274 0-1.845.7-2.165 1.193v.025h-.016l.016-.025V6.169h-2.4c.03.678 0 7.225 0 7.225z" />
+				</svg>
+			</a>
+			<br>
+			<a href="https://www.github.com/gltats/" target="_blank">
+				<svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" fill="white" class="bi bi-github mt-2"
+					viewBox="0 0 16 16">
+					<path
+						d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8" />
+				</svg>
+			</a>
+		</div>
+
+	</section>
+	<script>
+		//About me slideshow
+		const slides = document.querySelectorAll('.slide');
+		let currentSlide = 0;
+
+		function showSlide(index) {
+			slides.forEach((slide, i) => {
+				slide.style.display = i === index ? 'flex' : 'none';
+			});
+		}
+
+		function nextSlide() {
+			currentSlide = (currentSlide + 1) % slides.length;
+			showSlide(currentSlide);
+		}
+
+		setInterval(nextSlide, 5000); // Change slide every 5 seconds
+
+		document.addEventListener('DOMContentLoaded', function () {
+			const images = document.querySelectorAll('.carousel-image');
+			const projects = document.querySelector('.projects');
+			const galleryContainer = document.querySelector('.gallery-container');
+			const so_long = document.getElementById('so_long_section');
+			const minishell = document.getElementById('minishell-section');
+			const cub3d = document.getElementById('cub3d-section');
+			const transcendence = document.getElementById('transcendence-section');
+
+			so_long.style.display = 'none';
+			minishell.style.display = 'none';
+			cub3d.style.display = 'none';
+			transcendence.style.display = 'none';
+
+
+			let currentIndex = 1; // Start with the second image in the middle
+			const imagesToShow = 3; // Always show 3 images
+
+			function updateGallery() {
+				images.forEach((img, index) => {
+					img.classList.remove('active', 'blur');
+					img.style.visibility = 'hidden'; // Initially hide all images
+
+					// Show only the current, previous, and next images
+					if (index === currentIndex) {
+						img.classList.add('active'); // Middle image
+						img.style.visibility = 'visible';
+					} else if (index === currentIndex - 1 || index === currentIndex + 1) {
+						img.classList.add('blur'); // Left and right images blurred
+						img.style.visibility = 'visible';
+					}
+				});
+
+				// Slide the images smoothly
+				galleryContainer.style.transform = `translateX(-${300 * (currentIndex - 1)}px)`;
+			}
+
+			// Move to the previous image
+			document.getElementById('prevBtn').addEventListener('click', function () {
+				currentIndex = (currentIndex === 1) ? images.length - 2 : currentIndex - 1;
+				updateGallery();
+			});
+
+			// Move to the next image
+			document.getElementById('nextBtn').addEventListener('click', function () {
+				currentIndex = (currentIndex === images.length - 2) ? 1 : currentIndex + 1;
+				updateGallery();
+			});
+
+			//when pressing the button, show the project
+			document.getElementById('so_long-button').addEventListener('click', function () {
+				projects.style.display = 'none';
+				so_long.style.display = 'block';
+
+			});
+
+			document.getElementById('minishell-button').addEventListener('click', function () {
+				projects.style.display = 'none';
+				minishell.style.display = 'block';
+			});
+
+			document.getElementById('cub3d-button').addEventListener('click', function () {
+				projects.style.display = 'none';
+				cub3d.style.display = 'block';
+			});
+
+			document.getElementById('transcendence-button').addEventListener('click', function () {
+				projects.style.display = 'none';
+				transcendence.style.display = 'block';
+			});
+
+			//when pressing the button, go back to the projects
+			document.querySelectorAll('.back-button').forEach(button => {
+				button.addEventListener('click', function () {
+					projects.style.display = 'grid';
+					so_long.style.display = 'none';
+					minishell.style.display = 'none';
+					cub3d.style.display = 'none';
+					transcendence.style.display = 'none';
+				});
+			});
+
+			// Initialize the gallery
+			updateGallery();
+			showSlide(currentSlide);
+		});
+
+		//So_Long
+		const map = [
+			"11111111111111111111111111111111111111",
+			"1CCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCCC1",
+			"1CCCCCCCCC00011111110111111111111111C1",
+			"1CCCCCCC0011111111000111100011111111C1",
+			"1CC000001111111000000111000011111111C1",
+			"1C0011111111000000000000000111111100C1",
+			"1C0111111100000000000000011111111000C1",
+			"1C1111110000000000000001111111000000C1",
+			"1C1111000000000000000111111100000000C1",
+			"1C1111111111111111110111111100000111C1",
+			"1C1111111111111111110111111000011111C1",
+			"1C1111111111111111110111110001111111C1",
+			"1C0000000000011111110111100011111111C1",
+			"1C0000000000011111110111111111111111C1",
+			"1C0000000000011111110111111111111111C1",
+			"1P0000000000011111110000000000000000E1",
+			"11111111111111111111111111111111111111"
+		];
+
+		const canvas = document.getElementById('gameCanvas');
+		const ctx = canvas.getContext('2d');
+		// Set tile size and calculate canvas dimensions based on the map
+		const tileSize = 25;
+		canvas.width = map[0].length * tileSize;
+		canvas.height = map.length * tileSize;
+
+		// Player object
+		const player = { x: 1, y: 15, moves: 0, collected: 0 };
+		const totalCherries = map.reduce((total, row) => total + row.split('').filter(cell => cell === 'C').length, 0);
+		console.log(totalCherries);
+
+		// Event listener for player movement
+		document.addEventListener('keydown', handleKeyDown);
+		document.addEventListener('keyup', handleKeyUp);
+		drawGame(); // Initial drawing
+
+		// Key state
+		const keys = {};
+
+		// Function to handle key down
+		function handleKeyDown(e) {
+			e.preventDefault(); // Prevent the default action (scroll / move caret)
+			keys[e.key] = true;
+			movePlayer();
+		}
+
+		// Function to handle key up
+		function handleKeyUp(e) {
+			keys[e.key] = false;
+		}
+
+		// Function to move player
+		function movePlayer() {
+			let newX = player.x;
+			let newY = player.y;
+
+			if (keys['ArrowUp']) newY--;
+			if (keys['ArrowDown']) newY++;
+			if (keys['ArrowLeft']) newX--;
+			if (keys['ArrowRight']) newX++;
+
+			// Check if player is moving into a wall
+			if (map[newY][newX] === '1') return;
+
+			// Check if player collects a cherry
+			if (map[newY][newX] === 'C') {
+				player.collected++;
+				console.log("how many collected", player.collected);
+				console.log("how many cherries:", totalCherries);
+				map[newY] = replaceCharAt(map[newY], newX, '0'); // Remove the cherry from the map
+			}
+
+			// Check if player reaches the exit and has collected all cherries
+			if (map[newY][newX] === 'E' && player.collected === totalCherries) {
+				console.log("congrats");
+				showCongratulations();
+				return;
+			}
+
+			// Update the player's position on the map
+			if (map[player.y][player.x] !== 'E') {
+				map[player.y] = replaceCharAt(map[player.y], player.x, '0'); // Clear previous player position
+			}
+			player.x = newX;
+			player.y = newY;
+			//if (map[player.y][player.x] !== 'E') {
+			//    map[player.y] = replaceCharAt(map[player.y], player.x, 'P'); // Place player in new position
+			//}
+			player.moves++;
+
+			// Redraw the game after each movement
+			drawGame();
+		}
+
+		// Function to draw the game
+		function drawGame() {
+			ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+
+			for (let y = 0; y < map.length; y++) {
+				for (let x = 0; x < map[y].length; x++) {
+					const tile = map[y][x];
+					if (tile === '1') {
+						// Draw walls
+						ctx.fillStyle = 'grey';
+						ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
+					} else if (tile === 'C') {
+						// Draw cherries
+						ctx.fillStyle = 'pink';
+						ctx.beginPath();
+						ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize / 3, 0, 2 * Math.PI);
+						ctx.fill();
+					} else if (tile === 'E') {
+						// Draw exit
+						ctx.fillStyle = 'white';
+						ctx.beginPath();
+						ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize / 2, 0, 2 * Math.PI);
+						ctx.fill();
+					} else if (y === player.y && x === player.x) {
+						// Draw player
+						ctx.fillStyle = 'yellow';
+						ctx.fillRect(player.x * tileSize, player.y * tileSize, tileSize, tileSize);
+					}
+				}
+			}
+
+			// Update move counter
+			document.getElementById('moves').innerText = "moves: " + player.moves;
+
+		}
+
+		// Function to show congratulations message
+		const messageDiv = document.getElementById('congratulations');
+
+		function showCongratulations() {
+			messageDiv.style.display = 'block';
+			alert("Congratulations! You collected all cherries!");
+		}
+
+
+
+		// Helper function to replace character in a string (map rows)
+		function replaceCharAt(str, index, replacement) {
+			return str.substring(0, index) + replacement + str.substring(index + 1);
+		}
+
+	</script>
+</body>
+
+</html>
