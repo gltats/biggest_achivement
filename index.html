@@ -16,6 +16,7 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Honk&display=swap" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css2?family=Jacquarda+Bastarda+9&family=Playwrite+DE+Grund:wght@100..400&display=swap" rel="stylesheet">
 	<!-- custom css -->
 	<title>My Journey at 42 Wolfsburg</title>
 	<style>
@@ -32,6 +33,22 @@
 			margin: 0;
 			padding: 0;
 			background-color: var(--light-color);
+			align-items: center;
+		}
+
+		p:first-child::first-letter {
+			color: var(--primary-color);
+			float: left;
+			font-family: Georgia;
+			font-size: 75px;
+			line-height: 60px;
+			padding-top: 4px;
+			padding-right: 8px;
+			padding-left: 3px;
+		}
+
+		h2{
+			font-family: 'Playwrite DE Grund', sans-serif;
 		}
 
 		.pre-site {
@@ -139,11 +156,23 @@
 			}
 		}
 
-		section {
+		.section {
 			padding: 30px;
 			max-width: 1200px;
 			margin: auto;
 		}
+
+		.AbouMe, .aboutSchool, .timeline-sec, .projects, .so_long, .Minishell,
+		.Cub3D, .Transcendence, .reflection
+		{
+			background-color: #ffffff36; /* Card background color */
+			border-radius: 15px; /* Rounded corners */
+			box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1); 
+			margin: 1rem;
+			padding: 1rem;
+
+		}
+
 
 		.icon-text {
 			display: flex;
@@ -156,17 +185,13 @@
 			width: 40px;
 		}
 
-		section.timeline {
+		.timeline {
 			display: flex;
 			flex-wrap: wrap;
 			justify-content: flex-start;
 			padding: 50px 20px;
 			gap: 20px;
-			max-width: 100%;
-			/* Ensures it fits the page width */
 			overflow-x: hidden;
-			/* No horizontal scrolling */
-
 		}
 
 		ul.timeline {
@@ -178,7 +203,7 @@
 			margin: 0;
 			gap: 20px;
 			justify-content: center;
-			/* Centers the timeline */
+		
 		}
 
 		ul.timeline li {
@@ -187,7 +212,6 @@
 			flex-shrink: 0;
 			width: 250px;
 			height: auto;
-			background-color: #fff;
 			border-radius: 10px;
 			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 			text-align: center;
@@ -759,8 +783,8 @@
 			</div>
 		</section>
 
-		<section class="timeline">
-			<h3>My timeline at 42:</h3>
+		<section class="timeline-sec">
+			<h2>My timeline at 42:</h2>
 			<p>A bit of context: 42 is structured to be completed within 12 to 24 months.
 				The curriculum is divided into circles, each representing a set of
 				progressively complex projects that build on the skills acquired in the previous circles.
@@ -808,7 +832,7 @@
 		</section>
 
 		<section class="so_long" id="so_long_section">
-			<h1>So_Long</h1>
+			<h2>So_Long</h2>
 			<div class="row">
 				<div class="col-md-6">
 					<div id="info" class="text-start">
@@ -831,8 +855,8 @@
 				</div>
 			</div>
 			<br>
-			<h3>Recreation of So_Long in JS</h3>
-			<p> Use the arrow keys to move the player and collect all the pink circles and exit through the white hole!
+			<h3 class=" text-start">Recreation of So_Long in JS</h3>
+			<p class=" text-start"> Use the arrow keys to move the player and collect all the pink circles and exit through the white hole!
 			</p>
 			<div id="moves">Moves: 0</div>
 			<canvas id="gameCanvas" class="so_longCanvas"></canvas>
@@ -845,7 +869,7 @@
 		</section>
 
 		<section class="Minishell" id="minishell-section">
-			<h1>Minishell</h1>
+			<h2>Minishell</h2>
 			<video width="90%" controls>
 				<source src="videos/minishell.mp4" class="video" type="video/mp4">
 			</video>
@@ -860,7 +884,7 @@
 		</section>
 
 		<section class="Cub3D" id="cub3d-section">
-			<h1>Cub3D</h1>
+			<h2>Cub3D</h2>
 			<video width="90%" controls>
 				<source src="videos/cub3d.mp4" class="video" type="video/mp4">
 			</video>
@@ -881,7 +905,7 @@
 		</section>
 
 		<section class="Transcendence" id="transcendence-section">
-			<h1>Transcendence</h1>
+			<h2>Transcendence</h2>
 			<video width="90%" controls>
 				<source src="videos/ft_transcendence.mp4" class="video" type="video/mp4">
 			</video>
