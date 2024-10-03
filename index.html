@@ -1188,7 +1188,7 @@
 
 		const canvas = document.getElementById('gameCanvas');
 		const ctx = canvas.getContext('2d');
-		// Set tile size and calculate canvas dimensions based on the map
+
 		const tileSize = 25;
 		canvas.width = map[0].length * tileSize;
 		canvas.height = map.length * tileSize;
@@ -1196,29 +1196,23 @@
 		// Player object
 		const player = { x: 1, y: 15, moves: 0, collected: 0 };
 		const totalCherries = map.reduce((total, row) => total + row.split('').filter(cell => cell === 'C').length, 0);
-		console.log(totalCherries);
-
-		// Event listener for player movement
 		document.addEventListener('keydown', handleKeyDown);
 		document.addEventListener('keyup', handleKeyUp);
-		drawGame(); // Initial drawing
+		drawGame(); 
 
-		// Key state
+
 		const keys = {};
 
-		// Function to handle key down
 		function handleKeyDown(e) {
-			e.preventDefault(); // Prevent the default action (scroll / move caret)
+			e.preventDefault();
 			keys[e.key] = true;
 			movePlayer();
 		}
 
-		// Function to handle key up
 		function handleKeyUp(e) {
 			keys[e.key] = false;
 		}
 
-		// Function to move player
 		function movePlayer() {
 			let newX = player.x;
 			let newY = player.y;
@@ -1228,76 +1222,59 @@
 			if (keys['ArrowLeft']) newX--;
 			if (keys['ArrowRight']) newX++;
 
-			// Check if player is moving into a wall
 			if (map[newY][newX] === '1') return;
 
-			// Check if player collects a cherry
 			if (map[newY][newX] === 'C') {
 				player.collected++;
-				console.log("how many collected", player.collected);
-				console.log("how many cherries:", totalCherries);
-				map[newY] = replaceCharAt(map[newY], newX, '0'); // Remove the cherry from the map
+				map[newY] = replaceCharAt(map[newY], newX, '0');
 			}
 
-			// Check if player reaches the exit and has collected all cherries
 			if (map[newY][newX] === 'E' && player.collected === totalCherries) {
-				console.log("congrats");
 				showCongratulations();
 				return;
 			}
 
-			// Update the player's position on the map
 			if (map[player.y][player.x] !== 'E') {
 				map[player.y] = replaceCharAt(map[player.y], player.x, '0'); // Clear previous player position
 			}
 			player.x = newX;
 			player.y = newY;
-			//if (map[player.y][player.x] !== 'E') {
-			//    map[player.y] = replaceCharAt(map[player.y], player.x, 'P'); // Place player in new position
-			//}
 			player.moves++;
 
-			// Redraw the game after each movement
 			drawGame();
 		}
 
-		// Function to draw the game
+
 		function drawGame() {
-			ctx.clearRect(0, 0, canvas.width, canvas.height); // Clear the canvas
+			ctx.clearRect(0, 0, canvas.width, canvas.height);
 
 			for (let y = 0; y < map.length; y++) {
 				for (let x = 0; x < map[y].length; x++) {
 					const tile = map[y][x];
 					if (tile === '1') {
-						// Draw walls
 						ctx.fillStyle = 'grey';
 						ctx.fillRect(x * tileSize, y * tileSize, tileSize, tileSize);
 					} else if (tile === 'C') {
-						// Draw cherries
 						ctx.fillStyle = 'pink';
 						ctx.beginPath();
 						ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize / 3, 0, 2 * Math.PI);
 						ctx.fill();
 					} else if (tile === 'E') {
-						// Draw exit
 						ctx.fillStyle = 'white';
 						ctx.beginPath();
 						ctx.arc(x * tileSize + tileSize / 2, y * tileSize + tileSize / 2, tileSize / 2, 0, 2 * Math.PI);
 						ctx.fill();
 					} else if (y === player.y && x === player.x) {
-						// Draw player
 						ctx.fillStyle = 'yellow';
 						ctx.fillRect(player.x * tileSize, player.y * tileSize, tileSize, tileSize);
 					}
 				}
 			}
 
-			// Update move counter
 			document.getElementById('moves').innerText = "moves: " + player.moves;
 
 		}
 
-		// Function to show congratulations message
 		const messageDiv = document.getElementById('congratulations');
 
 		function showCongratulations() {
@@ -1306,13 +1283,10 @@
 		}
 
 
-
-		// Helper function to replace character in a string (map rows)
 		function replaceCharAt(str, index, replacement) {
 			return str.substring(0, index) + replacement + str.substring(index + 1);
 		}
 
-		//cool network nodes
 		const nodeCanvas = document.getElementById('nodeNetwork');
 		const nodeCtx = nodeCanvas.getContext('2d');
 
